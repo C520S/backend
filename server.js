@@ -5,7 +5,7 @@ dotenv.config({path: './config.env'})
 const  app = require('./app')
 
 const DB = process.env.DATABASE
-console.log(process.env.DATABASE);
+
 mongoose.connect(DB,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
