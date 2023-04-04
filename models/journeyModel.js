@@ -1,7 +1,7 @@
+// Import the Mongoose module
 const mongoose = require("mongoose");
 
-
-//Creating a journey schema
+// Define a schema for journeys
 const journeySchema = new mongoose.Schema({
     
   departureTime: { type: String, trim: true },
@@ -15,7 +15,7 @@ const journeySchema = new mongoose.Schema({
  }
 });
 
-
+// Create a Mongoose model based on the journey schema
 const Journeys = mongoose.model('Journeys', journeySchema)
 // const test = new Journeys({
 //   departureTime: '2312312'
@@ -25,4 +25,5 @@ const Journeys = mongoose.model('Journeys', journeySchema)
 //   console.log(doc);
 // }).catch(err =>console.log(err))
 
+// Export the Journeys model for use in other parts of the application
 module.exports =  Journeys;
