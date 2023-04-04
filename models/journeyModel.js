@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+
+//Creating a journey schema
 const journeySchema = new mongoose.Schema({
   departureTime: { type: String, trim: true },
   returnTime: { type: String, trim: true },
