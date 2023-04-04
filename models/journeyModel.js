@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 //Creating a journey schema
 const journeySchema = new mongoose.Schema({
+    
   departureTime: { type: String, trim: true },
   returnTime: { type: String, trim: true },
   departureStationId: { type: Number, trim: true },
@@ -16,5 +17,12 @@ const journeySchema = new mongoose.Schema({
 
 
 const Journeys = mongoose.model('Journeys', journeySchema)
+// const test = new Journeys({
+//   departureTime: '2312312'
+// })
+
+// test.save().then(doc => {
+//   console.log(doc);
+// }).catch(err =>console.log(err))
 
 module.exports =  Journeys;
