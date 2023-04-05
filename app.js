@@ -3,9 +3,10 @@
 const express = require("express"); // Import the Express framework
 const morgan = require("morgan"); // Import the Morgan middleware for logging
 
+
 // Import custom modules for handling requests
 const journeyRoutes = require('./routes/journeyRoutes'); // Import the journeyRoutes module
-
+const stationRoutes  = require('./routes/stationRoutes')
 // Create a new instance of the Express application
 const app = express(); 
 
@@ -19,6 +20,7 @@ if(process.env.NODE_ENV === 'development') {
 
 // Register the module base URL path
 app.use('/api/v1/journeys', journeyRoutes);
+app.use('/api/v1/stationList', stationRoutes)
 
 // Export the Express application to be used in other modules
 module.exports = app;
