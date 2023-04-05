@@ -1,5 +1,5 @@
 const StationListData  = require('./../models/stationModel')
-
+const Journeys = require('./../models/journeyModel')
 
 
 exports.getAllStation = async  (req,res) =>{
@@ -48,5 +48,94 @@ exports.getAllStation = async  (req,res) =>{
             messgae: error
           }) 
     }
+
+}
+
+exports.getSingleStationView = async (req,res) =>{
+
+try{
+    const {stationName} = req.params
+   
+    
+    let  stationData = await StationListData.find({nimi: stationName})
+         stationData = stationData[0]
+    
+    const  stationDepartureNum = await Journeys.countDocuments({departureStationName: stationName})
+    
+    const  stationArrivalNum = await Journeys.countDocuments({returnStationName: stationName})
+    
+    
+    let  averageDistanceofstationDeparture = await Journeys.aggregate([
+        {$match :{departureStationName: stationName}},
+        { $group:{_id: null, average:{$avg : '$coveredDistance'}} }
+    ])
+
+    averageDistanceofstationDeparture = Math.trunc(averageDistanceofstationDeparture[0].average)
+
+
+    let averageDistanceofstationArrival = await Journeys.aggregate([
+        {$match :{returnStationName: stationName}},
+        { $group:{_id: null, average:{$avg : '$coveredDistance'}} }
+        
+    ])
+
+    averageDistanceofstationArrival = Math.trunc(averageDistanceofstationArrival[0].average)
+
+
+    const popular5startResults = await Journeys.aggregate([
+        { $match: {departureStationName: stationName } },
+        {
+            $group: {
+                _id: "$returnStationName",
+                count: { $sum: 1 }
+              }
+        },
+        { $sort: { count: -1 } },
+        { $limit: 5 }
+    ])
+    const popular5start = popular5startResults.map(item => item._id).join(',')
+
+    const popular5endResults =await Journeys.aggregate([
+        { $match: { returnStationName: stationName } },
+        {
+            $group: {
+                _id: "$departureStationName",
+                count: { $sum: 1 }
+              }
+        },
+        { $sort: { count: -1 } },
+        { $limit: 5 }
+    ])
+    const popular5end =popular5endResults.map(item => item._id).join(',')
+    
+    // console.log(stationData);
+    // console.log(stationDepartureNum);
+    // console.log(stationArrivalNum);
+    // console.log(averageDistanceofstationDeparture);
+    // console.log(averageDistanceofstationArrival);
+    // console.log(popular5start);
+    // console.log(popular5end );
+
+   const  singleStationViewData = {
+    stationData,
+    stationDepartureNum,
+    stationArrivalNum,
+    averageDistanceofstationDeparture,
+    averageDistanceofstationArrival,
+    popular5start,
+    popular5end,
+   }
+
+   res.status(200).json({
+    status: 'success',
+    singleStationViewData, 
+    
+
+  })
+
+}catch(err){
+
+}
+
 
 }

@@ -9,7 +9,7 @@ const stationListController = require('./../controller/stationListController')
 
 // Set up routes 
 router.route("/").get(stationListController.getAllStation);
-
+router.route('/:stationName').get(stationListController.getSingleStationView)
 
 
 // Export the router instance for use in other parts of the application
