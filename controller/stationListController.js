@@ -44,7 +44,7 @@ exports.getAllStation = async  (req,res) =>{
     
       let error = err.message 
         res.status(404).json({
-            status: 'failure',
+            status: 'Not Found',
             messgae: error
           }) 
     }
@@ -125,6 +125,7 @@ try{
     popular5start,
     popular5end,
    }
+  
 
    res.status(200).json({
     status: 'success',
@@ -134,7 +135,13 @@ try{
   })
 
 }catch(err){
-
+     
+    let error = err.message 
+    res.status(500).json({
+        status: 'Internal Server Error',
+        messgae: error
+      }) 
+   
 }
 
 

@@ -48,7 +48,7 @@ exports.getAllJourneys = async (req,res)=>{
       // If there are any errors during the process, send an error response to the client
       let error = err.message // Get the error message from the error object
         res.status(404).json({
-            status: 'failure',
+            status: 'Not Found',
             messgae: error
           }) 
     }
