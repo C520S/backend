@@ -9,10 +9,10 @@ dotenv.config({path: './config.env'})
 const  app = require('./app')
 
 // Get the database connection URL from environment variables
-const DB = process.env.DATABASE
+//const DB = process.env.DATABASE
 
 // Connect to the MongoDB database
-mongoose.connect(DB,{
+mongoose.connect("mongodb+srv://frank:E0SFQZcerOD4YV4L@cluster0.jsxyaen.mongodb.net/hs_bike?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() =>{
