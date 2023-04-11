@@ -7,12 +7,18 @@ const morgan = require("morgan"); // Import the Morgan middleware for logging
 // Import custom modules for handling requests
 const journeyRoutes = require('./routes/journeyRoutes'); // Import the journeyRoutes module
 const stationRoutes  = require('./routes/stationRoutes')
+
+//Implementing CORS
+const cors = require("cors")
+
 // Create a new instance of the Express application
 const app = express(); 
 
 // Register middleware for parsing incoming JSON data
 app.use(express.json()); 
 
+//Implementing CORS
+app.use(cors());
 // Register Morgan middleware for logging HTTP requests in development environment
 if(process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); 
