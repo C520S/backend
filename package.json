@@ -4,7 +4,8 @@
   "description": "This application is a pre-assignment project for Solita dev Academy 2023.",
   "main": "server.js",
   "scripts": {
-    "start": " nodemon server.js"
+    "start": " node server.js",
+    "dev": " nodemon server.js"
   },
   "author": "",
   "license": "ISC",
