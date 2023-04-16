@@ -1,32 +1,30 @@
-
 // Import the necessary modules for the application
 const express = require("express"); // Import the Express framework
 const morgan = require("morgan"); // Import the Morgan middleware for logging
 
-
 // Import custom modules for handling requests
-const journeyRoutes = require('./routes/journeyRoutes'); // Import the journeyRoutes module
-const stationRoutes  = require('./routes/stationRoutes')
+const journeyRoutes = require("./routes/journeyRoutes"); // Import the journeyRoutes module
+const stationRoutes = require("./routes/stationRoutes");
 
 //Implementing CORS
-const cors = require("cors")
+const cors = require("cors");
 
 // Create a new instance of the Express application
-const app = express(); 
+const app = express();
 
 // Register middleware for parsing incoming JSON data
-app.use(express.json()); 
+app.use(express.json());
 
 //Implementing CORS
 app.use(cors());
 // Register Morgan middleware for logging HTTP requests in development environment
-if(process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev')); 
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
 }
 
 // Register the module base URL path
-app.use('/api/v1/journeys', journeyRoutes);
-app.use('/api/v1/stationList', stationRoutes)
+app.use("/api/v1/journeys", journeyRoutes);
+app.use("/api/v1/stationList", stationRoutes);
 
 // Export the Express application to be used in other modules
 module.exports = app;
