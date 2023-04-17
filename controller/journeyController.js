@@ -19,13 +19,13 @@ exports.getAllJourneys = async (req, res) => {
       const search = req.query.search;
       console.log(search);
       journeysData = await Journeys.find({
-        returnStationName: { $regex: search, $options: "i" },
+        departureStationName: { $regex: search, $options: "i" },
       })
         .skip(skip)
         .limit(limit);
 
       totalPNumofData = await Journeys.countDocuments({
-        returnStationName: { $regex: search, $options: "i" },
+        departureStationName: { $regex: search, $options: "i" },
       });
       totalPages = Math.trunc(totalPNumofData / limit);
 
