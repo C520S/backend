@@ -7,6 +7,9 @@ exports.getAllJourneys = async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = req.query.limit * 1 || 15;
     const skip = (page - 1) * limit;
+    // Calculate the total number of pages of data
+    let totalPNumofData = await Journeys.countDocuments();
+    let totalPages = Math.trunc(totalPNumofData / limit);
 
     // Retrieve the journey data from the database, with optional search parameters if provided
     let journeysData = await Journeys.find().skip(skip).limit(limit);
@@ -21,15 +24,17 @@ exports.getAllJourneys = async (req, res) => {
         .skip(skip)
         .limit(limit);
 
+      totalPNumofData = await Journeys.countDocuments({
+        returnStationName: { $regex: search, $options: "i" },
+      });
+      totalPages = Math.trunc(totalPNumofData / limit);
+
       // Throw an error if no data is found for the search
       if (!journeysData.length) {
         throw new Error("Cannot find the journey you need");
       }
     }
 
-    // Calculate the total number of pages of data
-    const totalPNumofData = await Journeys.countDocuments();
-    const totalPages = Math.trunc(totalPNumofData / limit);
     // Send the response to the client with the journey data and pagination information
     res.status(200).json({
       status: "success",
