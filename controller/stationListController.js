@@ -11,6 +11,9 @@ exports.getAllStation = async (req, res) => {
     const skip = (page - 1) * limit;
 
     let stationListData = await StationListData.find().skip(skip).limit(limit);
+    // Get the total number of documents in the StationListData model
+    let totalPNumofData = await StationListData.countDocuments();
+    let totalPages = Math.trunc(totalPNumofData / limit);
 
     // Check if there is a search query in the request parameters
     if (req.query.search) {
@@ -21,6 +24,10 @@ exports.getAllStation = async (req, res) => {
       })
         .skip(skip)
         .limit(limit);
+        totalPNumofData = await StationListData.countDocuments({
+          nimi: { $regex: search, $options: "i" },
+        });
+        totalPages = Math.trunc(totalPNumofData / limit);
 
       // If no data is returned from the search query, throw an error
       if (!stationListData.length) {
@@ -28,9 +35,7 @@ exports.getAllStation = async (req, res) => {
       }
     }
 
-    // Get the total number of documents in the StationListData model
-    const totalPNumofData = await StationListData.countDocuments();
-    const totalPages = Math.trunc(totalPNumofData / limit);
+  
 
     res.status(200).json({
       status: "success",
