@@ -24,18 +24,16 @@ exports.getAllStation = async (req, res) => {
       })
         .skip(skip)
         .limit(limit);
-        totalPNumofData = await StationListData.countDocuments({
-          nimi: { $regex: search, $options: "i" },
-        });
-        totalPages = Math.trunc(totalPNumofData / limit);
+      totalPNumofData = await StationListData.countDocuments({
+        nimi: { $regex: search, $options: "i" },
+      });
+      totalPages = Math.trunc(totalPNumofData / limit);
 
       // If no data is returned from the search query, throw an error
       if (!stationListData.length) {
         throw new Error("Cannot find the station data you need");
       }
     }
-
-  
 
     res.status(200).json({
       status: "success",
@@ -122,17 +120,10 @@ exports.getSingleStationView = async (req, res) => {
 
     const popular5end = popular5endResults.map((item) => item._id).join(",");
 
-    // console.log(stationData);
-    // console.log(stationDepartureNum);
-    // console.log(stationArrivalNum);
-    // console.log(averageDistanceofstationDeparture);
-    // console.log(averageDistanceofstationArrival);
-    // console.log(popular5start);
-    // console.log(popular5end );
+   
 
-    // Assemble all the data into an object to be returned
-    const singleStationViewData = {
-      stationData,
+    // Assemble all the data into an array to be returned
+    const singleStationView = {
       stationDepartureNum,
       stationArrivalNum,
       averageDistanceofstationDeparture,
@@ -140,6 +131,7 @@ exports.getSingleStationView = async (req, res) => {
       popular5start,
       popular5end,
     };
+    const singleStationViewData = [stationData, singleStationView];
 
     // Send the response to the client with the data
     res.status(200).json({
